@@ -28,5 +28,6 @@ for i in range(0,len(rawdata5)):
     rawdata6.append(rawdata5[i].split())
     
 rawdata7=np.array(rawdata6)
-
+url='https://www.math.muni.cz/~kolacek/docs/frvs/M7222/data/AutoInsurSweden.txt'
+insr=pd.read_csv(url)
 
