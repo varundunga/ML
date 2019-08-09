@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 
 #url='https://data.consumerfinance.gov/api/views.json'
-dataset=pd.read_csv('Consumer_Complaints1.csv')
+dataset=pd.read_csv('Consumer_Complaints1.csv',encoding='unicode_escape')
 dataset1=dataset[['Product', 'Consumer complaint narrative']]
 df=dataset1
 df = df[pd.notna(df['Consumer complaint narrative'])]
@@ -15,7 +15,7 @@ df.groupby('Product').count().plot.bar(ylim=0)
 plt.show()
 k=df.groupby('Product').count().iloc[:,0]
 k.plot.bar(ylim=0)
-from sklearn.feature_extraction.text import TfidfVectoriizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 tfidf = TfidfVectorizer(sublinear_tf=True, min_df=5, norm='l2', encoding='latin-1', ngram_range=(1, 2), stop_words='english')
 features = tfidf.fit_transform(df['Consumer complaint narrative']).toarray()
 
