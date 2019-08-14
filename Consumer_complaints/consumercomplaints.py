@@ -8,7 +8,7 @@ dataset=pd.read_csv('Consumer_Complaints1.csv',encoding='unicode_escape')
 dataset1=dataset[['Product', 'Consumer complaint narrative']]
 df=dataset1
 df = df[pd.notna(df['Consumer complaint narrative'])]
-df=df.iloc[0:10,:]
+df=df.iloc[0:1000,:]
 df['category_id'] = df['Product'].factorize()[0]
 fig = plt.figure(figsize=(8,6))
 df.groupby('Product').count().plot.bar(ylim=0)
@@ -18,6 +18,7 @@ k.plot.bar(ylim=0)
 from sklearn.feature_extraction.text import TfidfVectorizer
 tfidf = TfidfVectorizer(sublinear_tf=True, min_df=5, norm='l2', encoding='latin-1', ngram_range=(1, 2), stop_words='english')
 features = tfidf.fit_transform(df['Consumer complaint narrative']).toarray()
+labels=df['category_id']
 
 '''x=['asdf adf adse ad sadf aadsf ads','adsf ga a ae g a','asdf adf adse ad sadf aadsf ads','adsf ga a ae g a''asdf adf adse ad sadf aadsf ads','adsf ga a ae g a','good a a a a a a abad','worse a a a a good bad','asdf adf adse ad sadf aadsf ads','adsf ga a ae g a','asdf adf adse ad sadf aadsf ads','adsf ga a ae g a''asdf adf adse ad sadf aadsf ads','adsf ga a ae g a','good a a a a a a abad','worse a a a a good bad']
 
@@ -37,3 +38,6 @@ for Product, category_id in sorted(category_to_id.items()):
   feature_names = np.array(tfidf.get_feature_names())[indices]
   unigrams = [v for v in feature_names if len(v.split(' ')) == 1]
   bigrams = [v for v in feature_names if len(v.split(' ')) == 2]
+  print("# '{}':".format(Product))
+  print("  . Most correlated unigrams:\n. {}".format('\n. '.join(unigrams[-N:])))
+  print("  . Most correlated bigrams:\n. {}".format('\n. '.join(bigrams[-N:])))
